@@ -3,30 +3,23 @@ from django.shortcuts import render
 from rest_framework.decorators import api_view
 from rest_framework.response import Response
 
-from .models import Author, Books, Category
-from .serializer import AuthorSerializer, BooksSerializer, CategorySerializer
+from .models import Books
+from .serializer import BooksSerializer
 
 
 # Create your views here.
-@api_view(['GET'])
+@api_view(['GET', 'POST'])
 def books(request):
-    books = Books.objects.all()
-    serializer = BooksSerializer(books, many=True)
+    if request.method == 'GET':
+        books = Books.objects.all()
+        serializer = BooksSerializer(books, many=True)
 
-    return Response(serializer.data)
+        return Response(serializer.data)
 
+    elif request.method == 'POST':
+        serializer = BooksSerializer(data=request.data)
 
-@api_view(['GET'])
-def authors(request):
-    authors_list = Author.objects.all()
-    serializer = AuthorSerializer(authors_list, many=True)
+        if serializer.is_valid():
+            return Response(serializer.data)
 
-    return Response(serializer.data)
-
-
-@api_view(['GET'])
-def categories(request):
-    categories_list = Category.objects.all()
-    serializer = AuthorSerializer(categories_list, many=True)
-
-    return Response(serializer.data)
+        return Response(serializer.errors)
