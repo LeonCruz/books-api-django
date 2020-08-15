@@ -9,7 +9,7 @@ from .serializer import AuthorSerializer, BooksSerializer, CategorySerializer
 
 # Create your views here.
 @api_view(['GET'])
-def index(request):
+def books(request):
     books = Books.objects.all()
     serializer = BooksSerializer(books, many=True)
 
