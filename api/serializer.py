@@ -13,3 +13,9 @@ class AuthorSerializer(serializers.ModelSerializer):
     class Meta:
         model = Books
         fields = ['author']
+
+
+class CategorySerializer(serializers.ModelSerializer):
+    class Meta:
+        model = Books
+        fields = ['category']
