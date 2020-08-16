@@ -8,18 +8,9 @@ from .serializer import BooksSerializer
 
 
 # Create your views here.
-@api_view(['GET', 'POST'])
+@api_view(['GET'])
 def books(request):
-    if request.method == 'GET':
-        books = Books.objects.all()
-        serializer = BooksSerializer(books, many=True)
+    books = Books.objects.all()
+    serializer = BooksSerializer(books, many=True)
 
-        return Response(serializer.data)
-
-    elif request.method == 'POST':
-        serializer = BooksSerializer(data=request.data)
-
-        if serializer.is_valid():
-            return Response(serializer.data)
-
-        return Response(serializer.errors)
+    return Response(serializer.data)
